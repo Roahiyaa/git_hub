@@ -36,7 +36,7 @@ c_{y,k}
 \end{bmatrix}
 $$
 
-where \(c_{x,k}\) and \(c_{y,k}\) are the horizontal and vertical coordinates of the detected target centre at time step \(k\).
+where $c_{x,k}$ and $c_{y,k}$ are the horizontal and vertical coordinates of the detected target centre at time step $k$.
 
 The target-tracking process follows the feedback relationship
 
@@ -69,7 +69,7 @@ The specific function depends on the trajectory selected for the target.
 
 ### 2.1 Circular Trajectory
 
-For a circular trajectory with radius \(R\), centre \((x_c,y_c)\), angular velocity \(\omega\), and initial angular position \(\theta_0\), the angular position is
+For a circular trajectory with radius $R$, centre $(x_c,y_c)$, angular velocity $\omega$, and initial angular position $\theta_0$, the angular position is
 
 $$
 \theta(t)=\omega t+\theta_0
@@ -85,7 +85,7 @@ $$
 \boxed{y_T(t)=y_c+R\sin(\omega t+\theta_0)}
 $$
 
-For a constant target altitude \(z_0\),
+For a constant target altitude $z_0$,
 
 $$
 z_T(t)=z_0
@@ -139,7 +139,13 @@ R^2\omega^2\cos^2(\omega t+\theta_0)
 }
 $$
 
-Using \(\sin^2\theta+\cos^2\theta=1\),
+Using the trigonometric identity
+
+$$
+\sin^2\theta+\cos^2\theta=1
+$$
+
+the horizontal speed becomes
 
 $$
 \boxed{v_T=R|\omega|}
@@ -197,7 +203,7 @@ V(u,v)
 \end{bmatrix}
 $$
 
-The variables represent hue, saturation, and brightness at pixel location \((u,v)\).
+The variables represent hue, saturation, and brightness at pixel location $(u,v)$.
 
 For a selected colour range, define lower and upper thresholds:
 
@@ -277,7 +283,7 @@ $$
 
 When the detected target is represented by a binary mask, the centroid can be calculated from the coordinates of the selected pixels.
 
-Let \(\Omega\) be the set of detected target pixels and let \(N\) be the number of pixels in that set.
+Let $\Omega$ be the set of detected target pixels and let $N$ be the number of pixels in that set.
 
 The centroid coordinates are
 
@@ -307,7 +313,7 @@ The centroid and bounding-box centre are alternative representations of the targ
 
 The image centre is the desired target location for image-based tracking.
 
-For an image of width \(W\) and height \(H\), the desired centre is
+For an image of width $W$ and height $H$, the desired centre is
 
 $$
 \mathbf{q}^{*}=
@@ -350,13 +356,11 @@ $$
 The error vector is
 
 $$
-\boxed{
 \mathbf{e}_k=
 \begin{bmatrix}
 e_{x,k}\\
 e_{y,k}
 \end{bmatrix}
-}
 $$
 
 A zero error means that the detected target centre coincides with the desired image centre.
@@ -387,7 +391,7 @@ e_{y,k}^{n}
 \end{bmatrix}
 $$
 
-For target coordinates within the image boundaries, each normalized component lies between \(-1\) and \(1\), assuming the image coordinate convention runs from zero to the corresponding dimension.
+For target coordinates within the image boundaries, each normalized component lies between $-1$ and $1$, assuming the image coordinate convention runs from zero to the corresponding dimension.
 
 Normalization makes the error independent of the numerical scale of the image resolution.
 
@@ -397,7 +401,7 @@ Normalization makes the error independent of the numerical scale of the image re
 
 The proportional-integral-derivative controller calculates a control signal from the current error, accumulated error, and rate of error change.
 
-Let \(e(t)\) be a tracking error and \(u(t)\) be its control output.
+Let $e(t)$ be a tracking error and $u(t)$ be its control output.
 
 ### 5.1 Proportional Term
 
@@ -407,7 +411,7 @@ $$
 u_P(t)=K_Pe(t)
 $$
 
-where \(K_P\) is the proportional gain.
+where $K_P$ is the proportional gain.
 
 ### 5.2 Integral Term
 
@@ -417,7 +421,7 @@ $$
 u_I(t)=K_I\int_0^t e(\tau)\,d\tau
 $$
 
-where \(K_I\) is the integral gain.
+where $K_I$ is the integral gain.
 
 The integral term represents the accumulated tracking error.
 
@@ -429,7 +433,7 @@ $$
 u_D(t)=K_D\frac{de(t)}{dt}
 $$
 
-where \(K_D\) is the derivative gain.
+where $K_D$ is the derivative gain.
 
 ### 5.4 Complete PID Equation
 
@@ -448,7 +452,7 @@ The controller gains determine the contribution of each term.
 
 In a digital simulation, the controller is evaluated at discrete time steps.
 
-Let \(e_k\) be the current error and \(\Delta t\) be the time interval between consecutive updates.
+Let $e_k$ be the current error and $\Delta t$ be the time interval between consecutive updates.
 
 The integral term can be approximated by
 
@@ -476,7 +480,7 @@ $$
 \boxed{
 u_k=
 K_Pe_k+
-K_I\left(I_{k-1}+e_k\Delta t\right)+
+K_I(I_{k-1}+e_k\Delta t)+
 K_D\frac{e_k-e_{k-1}}{\Delta t}
 }
 $$
@@ -492,17 +496,19 @@ The controller must translate image-coordinate error into commands that influenc
 For horizontal and vertical image errors, separate control signals can be defined as
 
 $$
-u_x(t)=
-K_{Px}e_x(t)+
-K_{Ix}\int_0^t e_x(\tau)\,d\tau+
-K_{Dx}\frac{de_x(t)}{dt}
+\begin{aligned}
+u_x(t)={}&K_{Px}e_x(t)
++K_{Ix}\int_0^t e_x(\tau)\,d\tau\\
+&+K_{Dx}\frac{de_x(t)}{dt}
+\end{aligned}
 $$
 
 $$
-u_y(t)=
-K_{Py}e_y(t)+
-K_{Iy}\int_0^t e_y(\tau)\,d\tau+
-K_{Dy}\frac{de_y(t)}{dt}
+\begin{aligned}
+u_y(t)={}&K_{Py}e_y(t)
++K_{Iy}\int_0^t e_y(\tau)\,d\tau\\
+&+K_{Dy}\frac{de_y(t)}{dt}
+\end{aligned}
 $$
 
 These outputs can be combined into a control vector:
@@ -523,7 +529,7 @@ $$
 }
 $$
 
-where \(\mathbf{G}\) represents the chosen mapping between image-based control signals and UAV command components.
+where $\mathbf{G}$ represents the chosen mapping between image-based control signals and UAV command components.
 
 The mapping may include sign changes, scaling, axis selection, or limits according to the coordinate convention and flight-control interface.
 
@@ -547,8 +553,9 @@ $$
 The corresponding velocity is
 
 $$
-\mathbf{v}_D(t)=
-\frac{d\mathbf{p}_D(t)}{dt}
+\boxed{
+\mathbf{v}_D(t)=\frac{d\mathbf{p}_D(t)}{dt}
+}
 $$
 
 or
@@ -564,15 +571,11 @@ $$
 
 ### 7.1 Discrete Position Update
 
-For a discrete simulation with time step \(\Delta t\), a first-order position update is
+For a discrete simulation with time step $\Delta t$, a first-order position update is
 
 $$
 \boxed{
-\mathbf{p}_{D,k+1}
-=
-\mathbf{p}_{D,k}
-+
-\mathbf{v}_{D,k}\Delta t
+\mathbf{p}_{D,k+1} = \mathbf{p}_{D,k} + \mathbf{v}_{D,k}\Delta t
 }
 $$
 
@@ -596,29 +599,17 @@ This update describes motion when the velocity is treated as constant over the t
 
 If acceleration is explicitly modelled, the velocity update is
 
+
 $$
 \boxed{
-\mathbf{v}_{D,k+1}
-=
-\mathbf{v}_{D,k}
-+
-\mathbf{a}_{D,k}\Delta t
+\mathbf{v}_{D,k+1} = \mathbf{v}_{D,k} + \mathbf{a}_{D,k}\Delta t
 }
 $$
+
 
 A corresponding constant-acceleration position approximation is
 
-$$
-\boxed{
-\mathbf{p}_{D,k+1}
-=
-\mathbf{p}_{D,k}
-+
-\mathbf{v}_{D,k}\Delta t
-+
-\frac{1}{2}\mathbf{a}_{D,k}\Delta t^2
-}
-$$
+$$p_{D,k+1}=p_{D,k}+v_{D,k}\Delta t+\frac{1}{2}a_{D,k}(\Delta t)^2$$
 
 These are general discrete-time kinematic models. A physics simulator may instead integrate the UAV's dynamics using its own simulation and control equations.
 
@@ -642,22 +633,18 @@ $$
 Under the pinhole-camera model, its image coordinates are
 
 $$
-\boxed{
 u=f_x\frac{X_C}{Z_C}+c_x
-}
 $$
 
 $$
-\boxed{
 v=f_y\frac{Y_C}{Z_C}+c_y
-}
 $$
 
 where:
 
-- \(f_x\) and \(f_y\) are focal lengths expressed in pixel units.
-- \(c_x\) and \(c_y\) are the principal-point coordinates.
-- \(Z_C\) is the depth of the point relative to the camera.
+- $f_x$ and $f_y$ are focal lengths expressed in pixel units.
+- $c_x$ and $c_y$ are the principal-point coordinates.
+- $Z_C$ is the depth of the point relative to the camera.
 
 ### 8.1 Camera Intrinsic Matrix
 
@@ -674,23 +661,8 @@ $$
 
 Using homogeneous coordinates, the projection equation is
 
-$$
-\boxed{
-Z_C
-\begin{bmatrix}
-u\\
-v\\
-1
-\end{bmatrix}
-=
-\mathbf{K}
-\begin{bmatrix}
-X_C\\
-Y_C\\
-Z_C
-\end{bmatrix}
-}
-$$
+`Z_C [u, v, 1]^T = K [X_C, Y_C, Z_C]^T`
+
 
 This equation relates three-dimensional camera coordinates to two-dimensional image coordinates.
 
@@ -700,39 +672,17 @@ The projection loses direct depth information because the image contains only tw
 
 The transformation from world coordinates to camera coordinates can be represented as
 
-$$
-\boxed{
-\mathbf{P}_C
-=
-\mathbf{R}_{CW}\mathbf{P}_W+
-\mathbf{t}_{CW}
-}
-$$
+`P_C = R_CW P_W + t_CW`
 
 where:
 
-- \(\mathbf{P}_W\) is a point in world coordinates.
-- \(\mathbf{R}_{CW}\) is the rotation from the world frame to the camera frame.
-- \(\mathbf{t}_{CW}\) is the translation from the world frame to the camera frame.
+- $\mathbf{P}_W$ is a point in world coordinates.
+- $\mathbf{R}_{CW}$ is the rotation from the world frame to the camera frame.
+- $\mathbf{t}_{CW}$ is the translation from the world frame to the camera frame.
 
 The complete camera projection equation is
 
-$$
-\boxed{
-Z_C
-\begin{bmatrix}
-u\\
-v\\
-1
-\end{bmatrix}
-=
-\mathbf{K}
-\left(
-\mathbf{R}_{CW}\mathbf{P}_W+
-\mathbf{t}_{CW}
-\right)
-}
-$$
+`Z_C [u, v, 1]^T = K (R_CW P_W + t_CW)`
 
 This equation combines the coordinate-frame transformation with the camera's projection model.
 
@@ -744,18 +694,15 @@ Under the pinhole-camera model, the apparent image size of an object depends on 
 
 Let:
 
-- \(H_{\mathrm{obj}}\) be the physical height of the object.
-- \(h_{\mathrm{px}}\) be its apparent height in pixels.
-- \(f_{\mathrm{px}}\) be the camera focal length in pixels.
-- \(Z\) be the distance along the camera's optical axis.
+- $H_{\mathrm{obj}}$ be the physical height of the object.
+- $h_{\mathrm{px}}$ be its apparent height in pixels.
+- $f_{\mathrm{px}}$ be the camera focal length in pixels.
+- $Z$ be the distance along the camera's optical axis.
 
 For an object approximately perpendicular to the viewing direction,
 
-$$
-h_{\mathrm{px}}
-=
-\frac{f_{\mathrm{px}}H_{\mathrm{obj}}}{Z}
-$$
+
+`h_px = (f_px * H_obj) / Z`
 
 Rearranging gives
 
@@ -795,8 +742,8 @@ $$
 
 where:
 
-- \(\mathbf{R}_{WC}\) rotates a vector from the camera frame to the world frame.
-- \(\mathbf{t}_{WC}\) is the camera origin expressed in world coordinates.
+- $\mathbf{R}_{WC}$ rotates a vector from the camera frame to the world frame.
+- $\mathbf{t}_{WC}$ is the camera origin expressed in world coordinates.
 
 If the rotation and translation describe the same rigid transformation used in the world-to-camera equation, then
 
@@ -842,7 +789,7 @@ q_z
 \end{bmatrix}
 $$
 
-where \(q_w\) is the scalar component and \(q_x,q_y,q_z\) are the vector components.
+where $q_w$ is the scalar component and $q_x,q_y,q_z$ are the vector components.
 
 ### 11.1 Quaternion Norm
 
@@ -858,9 +805,7 @@ $$
 A unit quaternion satisfies
 
 $$
-\boxed{
 q_w^2+q_x^2+q_y^2+q_z^2=1
-}
 $$
 
 ### 11.2 Quaternion Normalization
@@ -926,31 +871,17 @@ Quaternion multiplication combines rotations, with the resulting orientation dep
 
 The relative position of the target with respect to the UAV is defined as
 
-$$
-\boxed{
-\mathbf{p}_{\mathrm{rel}}(t)
-=
-\mathbf{p}_T(t)-\mathbf{p}_D(t)
-}
-$$
+`p_rel(t) = p_T(t) - p_D(t)`
 
 Expanding the relative position,
 
-$$
-\mathbf{p}_{\mathrm{rel}}(t)=
-\begin{bmatrix}
-x_T(t)-x_D(t)\\
-y_T(t)-y_D(t)\\
-z_T(t)-z_D(t)
-\end{bmatrix}
-$$
+`d(t) = sqrt((x_T - x_D)^2 + (y_T - y_D)^2 + (z_T - z_D)^2)`
 
 The Euclidean distance between the target and UAV is
 
 $$
 \boxed{
-d(t)=
-\sqrt{
+d(t)=\sqrt{
 (x_T-x_D)^2+
 (y_T-y_D)^2+
 (z_T-z_D)^2
@@ -961,11 +892,7 @@ $$
 The relative velocity is
 
 $$
-\boxed{
-\mathbf{v}_{\mathrm{rel}}(t)
-=
-\mathbf{v}_T(t)-\mathbf{v}_D(t)
-}
+\mathbf{v}_{\mathrm{rel}}(t) = \mathbf{v}_T(t) - \mathbf{v}_D(t)
 $$
 
 The relative position and distance describe physical separation in the world frame. They are different from image-coordinate error, which describes the target's displacement from the desired image location.
@@ -976,7 +903,7 @@ The relative position and distance describe physical separation in the world fra
 
 Gaussian blur smooths an image by convolving it with a Gaussian kernel.
 
-For a two-dimensional image \(I(x,y)\), the Gaussian function is
+For a two-dimensional image $I(x,y)$, the Gaussian function is
 
 $$
 \boxed{
@@ -988,19 +915,15 @@ G(x,y)=
 }
 $$
 
-where \(\sigma\) controls the spread of the Gaussian kernel.
+where $\sigma$ controls the spread of the Gaussian kernel.
 
 The blurred image is
 
 $$
-\boxed{
-I_{\mathrm{blur}}(x,y)
-=
-(I*G)(x,y)
-}
+I_{\mathrm{blur}}(x,y) = (I * G)(x,y)
 $$
 
-where \(*\) denotes convolution.
+where $*$ denotes convolution.
 
 Gaussian smoothing reduces high-frequency variations and may reduce image noise before colour segmentation.
 
@@ -1010,21 +933,19 @@ Gaussian smoothing reduces high-frequency variations and may reduce image noise 
 
 Histogram equalization transforms image intensities to redistribute their values across the available intensity range.
 
-For a grayscale image with \(L\) possible intensity levels, the cumulative distribution function is
+For a grayscale image with $L$ possible intensity levels, the cumulative distribution function is
 
 $$
-\operatorname{CDF}(r_k)
-=
-\sum_{j=0}^{k}p(r_j)
+\mathrm{CDF}(r_k) = \sum_{j=0}^{k} p(r_j)
 $$
 
-where \(p(r_j)\) is the normalized frequency of intensity level \(r_j\).
+where $p(r_j)$ is the normalized frequency of intensity level $r_j$.
 
 The transformed intensity is
 
 $$
 \boxed{
-s_k=(L-1)\operatorname{CDF}(r_k)
+s_k = (L-1)\,\mathrm{CDF}(r_k)
 }
 $$
 
@@ -1046,25 +967,23 @@ $$
 
 Assuming that the intensity of a moving image point remains approximately constant between nearby frames,
 
+
 $$
-I(x,y,t)
-=
-I(x+\Delta x,y+\Delta y,t+\Delta t)
+I(x,y,t) \approx I(x+\Delta x,y+\Delta y,t+\Delta t)
 $$
+
 
 Using a first-order Taylor expansion,
 
 $$
+\begin{aligned}
 I(x+\Delta x,y+\Delta y,t+\Delta t)
-\approx
-I(x,y,t)
-+
-I_x\Delta x+
-I_y\Delta y+
-I_t\Delta t
+\approx{}& I(x,y,t)\\
+&+I_x\Delta x+I_y\Delta y+I_t\Delta t
+\end{aligned}
 $$
 
-Subtracting \(I(x,y,t)\) and dividing by \(\Delta t\) gives
+Subtracting $I(x,y,t)$ and dividing by $\Delta t$ gives
 
 $$
 \boxed{
@@ -1080,23 +999,15 @@ u=\frac{\Delta x}{\Delta t},
 v=\frac{\Delta y}{\Delta t}
 $$
 
-and \(I_x,I_y,I_t\) are the spatial and temporal image-intensity derivatives.
+and $I_x,I_y,I_t$ are the spatial and temporal image-intensity derivatives.
 
 ### 15.1 Least-Squares Solution
 
 The optical-flow equation provides one constraint for two unknown velocity components. The Lucas–Kanade method assumes approximately constant flow in a local image window.
 
-For \(n\) pixels in that window, the equations can be written as
+For $n$ pixels in that window, the equations can be written as
 
-$$
-\mathbf{A}
-\begin{bmatrix}
-u\\
-v
-\end{bmatrix}
-=
-\mathbf{b}
-$$
+$$\mathbf{A}\begin{bmatrix}u\\v\end{bmatrix}=\mathbf{b}$$
 
 where
 
@@ -1112,32 +1023,21 @@ $$
 
 and
 
+
 $$
-\mathbf{b}=
--
-\begin{bmatrix}
-I_{t,1}\\
-I_{t,2}\\
-\vdots\\
-I_{t,n}
-\end{bmatrix}
+\mathbf{b} = (I_{t,1}, I_{t,2}, \ldots, I_{t,n})^T
 $$
+
 
 The least-squares estimate is
 
+
 $$
-\boxed{
-\begin{bmatrix}
-u\\
-v
-\end{bmatrix}
-=
-(\mathbf{A}^{T}\mathbf{A})^{-1}
-\mathbf{A}^{T}\mathbf{b}
-}
+[u, v]^T = (A^T A)^{-1} A^T b
 $$
 
-when \(\mathbf{A}^{T}\mathbf{A}\) is invertible.
+
+when $\mathbf{A}^{T}\mathbf{A}$ is invertible.
 
 Optical flow can estimate apparent image motion, but it does not directly provide absolute three-dimensional target motion without additional geometric information.
 
@@ -1145,7 +1045,7 @@ Optical flow can estimate apparent image motion, but it does not directly provid
 
 ## 16. Feedback Tracking Objective
 
-Let the desired target image position be \(\mathbf{q}^{*}\) and the detected target position at time step \(k\) be \(\mathbf{q}_k\).
+Let the desired target image position be $\mathbf{q}^{*}$ and the detected target position at time step $k$ be $\mathbf{q}_k$.
 
 The tracking error is
 
@@ -1191,73 +1091,41 @@ The new UAV position affects the next captured image, which produces a new targe
 
 ---
 
-## 17. Mathematical Relationship Between the Components
+
+### 17. Mathematical Relationship Between the Components
 
 The mathematical components are connected through the following sequence.
 
 1. **Target motion:** The target trajectory determines the target's position over time.
 
-   $$
-   \mathbf{p}_T(t)=\mathbf{f}(t)
-   $$
+   $$\mathbf{p}_T(t)=\mathbf{f}(t)$$
 
 2. **Image formation:** The camera maps three-dimensional scene points into image coordinates.
 
-   $$
-   Z_C
-   \begin{bmatrix}
-   u\\
-   v\\
-   1
-   \end{bmatrix}
-   =
-   \mathbf{K}
-   \begin{bmatrix}
-   X_C\\
-   Y_C\\
-   Z_C
-   \end{bmatrix}
-   $$
-
+   $$Z_C [u, v, 1]^T = K [X_C, Y_C, Z_C]^T$$
+  
 3. **Target detection:** Image processing estimates the target centre.
 
-   $$
-   \mathbf{q}_k=
-   \begin{bmatrix}
-   c_{x,k}\\
-   c_{y,k}
-   \end{bmatrix}
-   $$
+  $$\mathbf{q}_k = \begin{bmatrix} u_k \\ v_k \end{bmatrix}$$thbf{q}_k = \left[\begin{smallmatrix} u_k \\ v_k \end{smallmatrix}\right]
+$$
+   
+5. **Error calculation:** The detected position is compared with the desired image centre.
 
-4. **Error calculation:** The detected position is compared with the desired image centre.
+   $$\mathbf{e}_k=\mathbf{q}_k-\mathbf{q}^{*}$$
 
-   $$
-   \mathbf{e}_k=\mathbf{q}_k-\mathbf{q}^{*}
-   $$
+6. **Feedback control:** The controller calculates a correction from the error.
 
-5. **Feedback control:** The controller calculates a correction from the error.
+   $$\mathbf{u}_k=\mathrm{PID}(\mathbf{e}_k)$$
 
-   $$
-   \mathbf{u}_k=\operatorname{PID}(\mathbf{e}_k)
-   $$
+7. **UAV motion:** The control output influences UAV motion through the selected control interface and dynamics.
 
-6. **UAV motion:** The control output influences UAV motion through the selected control interface and dynamics.
+   $$\mathbf{p}_{D,k+1}=\mathbf{p}_{D,k}+\mathbf{v}_{D,k}\Delta t$$
 
-   $$
-   \mathbf{p}_{D,k+1}
-   =
-   \mathbf{p}_{D,k}
-   +
-   \mathbf{v}_{D,k}\Delta t
-   $$
+8. **Feedback update:** The next image is acquired and processed, producing the next tracking error.
 
-7. **Feedback update:** The next image is acquired and processed, producing the next tracking error.
-
-   $$
-   \mathbf{e}_{k+1}=\mathbf{q}_{k+1}-\mathbf{q}^{*}
-   $$
-
+   $$\mathbf{e}_{k+1}=\mathbf{q}_{k+1}-\mathbf{q}^{*}$$
 The overall objective is to reduce the image-position error through repeated detection, control, and motion updates.
+
 ---
 
 ## 18. Implementation Notes
@@ -1271,5 +1139,4 @@ The overall objective is to reduce the image-position error through repeated det
 - Gaussian blur, histogram equalization, and Lucas–Kanade optical flow are supplementary mathematical methods. Include them as implemented project features only if the source code actually uses them.
 - The discrete UAV kinematic equations are simplified mathematical models. A physics simulator may use a different integration method and a more detailed dynamics model.
 - This document explains the mathematical relationships; it does not by itself establish that every equation is directly implemented in the repository.
-
-For a source-verified description, match each equation to the corresponding Python implementation in the target-motion, camera-tracking, controller, and simulation files.
+- For a source-verified description, match each equation to the corresponding Python implementation in the target-motion, camera-tracking, controller, and simulation files.
