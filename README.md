@@ -1025,7 +1025,7 @@ and
 
 
 $$
-\mathbf{b} = (I_{t,1}, I_{t,2}, \ldots, I_{t,n})^T
+\mathbf{b} = -(I_{t,1}, I_{t,2}, \ldots, I_{t,n})^T
 $$
 
 
@@ -1033,7 +1033,7 @@ The least-squares estimate is
 
 
 $$
-[u, v]^T = (A^T A)^{-1} A^T b
+[u, v]^T = (A^T A)^{-1} A^+ b
 $$
 
 
