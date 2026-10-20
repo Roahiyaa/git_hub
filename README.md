@@ -1195,45 +1195,53 @@ The new UAV position affects the next captured image, which produces a new targe
 
 The mathematical components are connected through the following sequence.
 
-1. **Target motion:** The target trajectory determines the target's position over time:
+1. **Target motion:** The target trajectory determines the target's position over time.
 
    $$
    \mathbf{p}_T(t)=\mathbf{f}(t)
    $$
 
-2. **Image formation:** The camera maps three-dimensional scene points into image coordinates:
+2. **Image formation:** The camera maps three-dimensional scene points into image coordinates.
 
    $$
    Z_C
    \begin{bmatrix}
-   u\\v\\1
+   u\\
+   v\\
+   1
    \end{bmatrix}
    =
-   \mathbf{K}\mathbf{P}_C
+   \mathbf{K}
+   \begin{bmatrix}
+   X_C\\
+   Y_C\\
+   Z_C
+   \end{bmatrix}
    $$
 
-3. **Target detection:** Image processing estimates the target centre:
+3. **Target detection:** Image processing estimates the target centre.
 
    $$
    \mathbf{q}_k=
    \begin{bmatrix}
-   c_{x,k}\\c_{y,k}
+   c_{x,k}\\
+   c_{y,k}
    \end{bmatrix}
    $$
 
-4. **Error calculation:** The detected position is compared with the desired image centre:
+4. **Error calculation:** The detected position is compared with the desired image centre.
 
    $$
    \mathbf{e}_k=\mathbf{q}_k-\mathbf{q}^{*}
    $$
 
-5. **Feedback control:** The controller calculates a correction from the error:
+5. **Feedback control:** The controller calculates a correction from the error.
 
    $$
    \mathbf{u}_k=\operatorname{PID}(\mathbf{e}_k)
    $$
 
-6. **UAV motion:** The control output influences the UAV's motion through the chosen control interface and dynamics:
+6. **UAV motion:** The control output influences UAV motion through the selected control interface and dynamics.
 
    $$
    \mathbf{p}_{D,k+1}
@@ -1243,16 +1251,13 @@ The mathematical components are connected through the following sequence.
    \mathbf{v}_{D,k}\Delta t
    $$
 
-7. **Feedback update:** The next image is acquired and processed, producing the next error:
+7. **Feedback update:** The next image is acquired and processed, producing the next tracking error.
 
    $$
-   \mathbf{e}_{k+1}
-   =
-   \mathbf{q}_{k+1}-\mathbf{q}^{*}
+   \mathbf{e}_{k+1}=\mathbf{q}_{k+1}-\mathbf{q}^{*}
    $$
 
 The overall objective is to reduce the image-position error through repeated detection, control, and motion updates.
-
 ---
 
 ## 18. Implementation Notes
