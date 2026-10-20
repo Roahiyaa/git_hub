@@ -1106,24 +1106,30 @@ The mathematical components are connected through the following sequence.
   
 3. **Target detection:** Image processing estimates the target centre.
 
-  $$\mathbf{q}_k = \begin{bmatrix} u_k \\ v_k \end{bmatrix}$$thbf{q}_k = \left[\begin{smallmatrix} u_k \\ v_k \end{smallmatrix}\right]
+$$
+\mathbf{q}_k = \begin{bmatrix} u_k \\ v_k \end{bmatrix}^T
 $$
    
-5. **Error calculation:** The detected position is compared with the desired image centre.
+4. **Error calculation:** The detected position is compared with the desired image centre.
 
    $$\mathbf{e}_k=\mathbf{q}_k-\mathbf{q}^{*}$$
 
-6. **Feedback control:** The controller calculates a correction from the error.
+5. **Feedback control:** The controller calculates a correction from the error.
 
    $$\mathbf{u}_k=\mathrm{PID}(\mathbf{e}_k)$$
 
-7. **UAV motion:** The control output influences UAV motion through the selected control interface and dynamics.
+6. **UAV motion:** The control output influences UAV motion through the selected control interface and dynamics.
 
-   $$\mathbf{p}_{D,k+1}=\mathbf{p}_{D,k}+\mathbf{v}_{D,k}\Delta t$$
+$$
+\mathbf{p}_{D,k+1} = \mathbf{p}_{D,k} + \mathbf{v}_{D,k}\Delta t
+$$
 
-8. **Feedback update:** The next image is acquired and processed, producing the next tracking error.
+7. **Feedback update:** The next image is acquired and processed, producing the next tracking error.
 
-   $$\mathbf{e}_{k+1}=\mathbf{q}_{k+1}-\mathbf{q}^{*}$$
+$$
+\mathbf{e}_{k+1} = \mathbf{q}_{k+1} - \mathbf{q}^{*}
+$$
+
 The overall objective is to reduce the image-position error through repeated detection, control, and motion updates.
 
 ---
